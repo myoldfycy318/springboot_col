@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+         http://www.springframework.org/schema/util
+         http://www.springframework.org/schema/util/spring-util-4.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.0.xsd" >
+
+    <!--<context:annotation-config/>-->
+
+    <!--<context:property-placeholder-->
+            <!--ignore-unresolvable="true" location="classpath*:/application.yml" />-->
+
+    <!--从RabbitMQ Java Client创建RabbitMQ连接工厂对象-->
+    <bean id="rabbitMQConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
+        <property name="username" value="admin" />
+        <property name="password" value="admin" />
+        <property name="host" value="localhost" />
+        <property name="port" value="5672" />
+        <property name="virtualHost" value="/" />
+    </bean>
+
+    <!--基于RabbitMQ连接工厂对象构建spring-rabbit的连接工厂对象Wrapper-->
+    <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg name="rabbitConnectionFactory" ref="rabbitMQConnectionFactory" />
+    </bean>
+
+    <!--构建RabbitAmdin对象，它负责创建Queue/Exchange/Bind对象-->
+    <bean id="rabbitAdmin" class="org.springframework.amqp.rabbit.core.RabbitAdmin">
+        <constructor-arg name="connectionFactory" ref="connectionFactory" />
+        <property name="autoStartup" value="true"></property>
+    </bean>
+
+    <!--构建Rabbit Template对象，用于发送RabbitMQ消息，本程序使用它发送返回消息-->
+    <bean id="rabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+        <constructor-arg name="connectionFactory" ref="connectionFactory" />
+    </bean>
+
+    <!--RabbitMQ消息转化器，用于将RabbitMQ消息转换为AMQP消息，我们这里使用基本的Message Converter -->
+    <bean id="serializerMessageConverter"
+          class="org.springframework.amqp.support.converter.SimpleMessageConverter" />
+
+    <!--Message Properties转换器，用于在spring-amqp Message对象中的Message Properties和RabbitMQ的
+     Message Properties对象之间互相转换 -->
+    <bean id="messagePropertiesConverter"
+          class="org.springframework.amqp.rabbit.support.DefaultMessagePropertiesConverter" />
+
+    <!--定义AMQP Queue-->
+    <bean id="springMessageQueue" class="org.springframework.amqp.core.Queue">
+        <constructor-arg name="name" value="springMessageQueue" />
+        <constructor-arg name="autoDelete" value="false" />
+        <constructor-arg name="durable" value="true" />
+        <constructor-arg name="exclusive" value="false" />
+        <!--定义AMQP Queue创建所需的RabbitAdmin对象-->
+        <property name="adminsThatShouldDeclare" ref="rabbitAdmin" />
+        <!--判断是否需要在连接RabbitMQ后创建Queue-->
+        <property name="shouldDeclare" value="true" />
+    </bean>
+
+    <!--定义AMQP Exchange-->
+    <bean id="springMessageExchange" class="org.springframework.amqp.core.DirectExchange">
+        <constructor-arg name="name" value="springMessageExchange" />
+        <constructor-arg name="durable" value="true" />
+        <constructor-arg name="autoDelete" value="false" />
+        <!--定义AMQP Queue创建所需的RabbitAdmin对象-->
+        <property name="adminsThatShouldDeclare" ref="rabbitAdmin" />
+        <!--判断是否需要在连接RabbitMQ后创建Exchange-->
+        <property name="shouldDeclare" value="true" />
+    </bean>
+
+    <util:map id="emptyMap" map-class="java.util.HashMap" />
+
+    <!--创建Exchange和Queue之间的Bind-->
+    <bean id="springMessageBind" class="org.springframework.amqp.core.Binding">
+        <constructor-arg name="destination" value="springMessageQueue" />
+        <constructor-arg name="destinationType" value="QUEUE" />
+        <constructor-arg name="exchange" value="springMessageExchange" />
+        <constructor-arg name="routingKey" value="springMessage" />
+        <constructor-arg name="arguments" ref="emptyMap" />
+    </bean>
+
+    <!--侦听springMessageQueue队列消息的Message Listener-->
+    <bean id="consumerListener"
+          class="com.dean.springamqp.mq.RabbitMQConsumer" />
+
+    <!--创建侦听springMessageQueue队列的Message Listener Container-->
+    <bean id="messageListenerContainer"
+          class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="messageConverter" ref="serializerMessageConverter" />
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="messageListener" ref="consumerListener" />
+        <property name="queues" ref="springMessageQueue" />
+        <!--设置消息确认方式为自动确认-->
+        <property name="acknowledgeMode" value="AUTO" />
+        <property name="consumerTagStrategy" ref="customConsumerTagStrategy"/>
+    </bean>
+
+    <bean id="consumerDelegate"
+          class="com.dean.springamqp.mq.ConsumerDelegate" />
+
+    <bean id="consumerListenerAdapter"
+          class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="consumerDelegate" />
+        <!--指定delegate处理消息的默认方法 -->
+        <property name="defaultListenerMethod" value="processMessage" />
+    </bean>
+</beans>

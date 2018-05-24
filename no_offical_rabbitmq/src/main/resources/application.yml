@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: usage_message
+
+
+logging:
+  level:
+    org: ERROR
+
+tutorial:
+  client:
+    duration: 1000000
+
+server:
+  port: 8082
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: admin
+  password: admin
+#  publisher-confirms: true
+  virtual-host: /

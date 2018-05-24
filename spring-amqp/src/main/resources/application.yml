@@ -1,0 +1,10 @@
+server:
+  port: 8090
+
+#rabbitmq:
+#  host: localhost
+#  port: 5762
+#  username: admin
+#  password: admin
+##  publisher-confirms: true
+#  virtual-host: /

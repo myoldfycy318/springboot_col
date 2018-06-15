@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dena.sb_druid.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.dena.sb_druid.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_name, age
+    </sql>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+
+    <select id="queryUsers" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+    </select>
+
+    <insert id="insert" parameterType="com.dena.sb_druid.entity.User">
+        insert into t_user (id, user_name,
+        age)
+        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},#{age,jdbcType=INTEGER})
+    </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.dena.sb_druid.entity.User">
+        update t_user
+        set user_name = #{userName,jdbcType=VARCHAR},
+        age = #{age,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--利用mysql数据的自增，使用Map可以获取自增的字段值 -->
+    <insert id="saveSendHist" parameterType="map"  keyProperty="id" useGeneratedKeys="true">
+        insert into t_user(id) values(#{id})
+    </insert>
+
+
+</mapper>

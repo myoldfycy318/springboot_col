@@ -1,0 +1,62 @@
+SpringBoot之打包成war包部署到tomcat
+小编花费了九牛二虎之力，总算把SpringBoot项目成功打包成war包，其中不免遇到了一些小状况，特写此文，以便其他小伙伴们不要走我的老路，避免重复这些小错误：
+
+配置文件（本地部署）
+启动类（war包部署）
+war包部署pom.xml添加
+maven命令生成war包（跳过测试）
+war部署到tomcat
+配置文件（本地部署）
+这里呢，是我们伟大的springboot的配置文件需要做的一些配置，即使似乎跟打包没有半毛钱关系，但是小编还是在这里强调一下，大多数情况下，maven是默认进行项目测试的，请确保在打包成war前，数据库配置正确，以免入坑。
+user = name
+spring.datasource.url = jdbc:mysql://127.0.0.1:3306/mj
+
+spring.datasource.username = root
+
+spring.datasource.password = 123456
+
+spring.datasource.driverClassName = com.mysql.jdbc.Driver
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql = true
+
+启动类（war包部署）
+接下来呢，要想springboot项目知道我们的意图，so,我们要引导我们的项目，告诉他我们要打包成war包，在此我们需要继承SpringBootServletInitializer类重写他的configure方法。告诉他我们要怎样启动它，生成war包需要的相关文件
+package com.job;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+@ServletComponentScan
+public class JobManagementApplication extends SpringBootServletInitializer{
+
+     @Override
+protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+            return application.sources(JobManagementApplication.class);
+        }
+    public static void main(String[] args) {
+        SpringApplication.run(JobManagementApplication.class, args);
+    }
+
+war包部署pom.xml添加
+接下来，我们要为maven的pom.xml添加相关的依赖配置：
+首先要把<packaging>jar</packaging>改为以下
+<packaging>war</packaging>
+1
+其次还有添加以下依赖
+
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+</dependency>
+
+maven命令生成war包（跳过测试）
+mvn clean package  -Dmaven.test.skip=true
+1
+war部署到tomcat
+重命名生成的war包为ROOT.war，部署到tomcat的webapps文件目录下（确保webapps目录下没有其他ROOT文件夹）
+tips:云服务器上部署时确保连接数据库配置正确，否则项目跑不起来。

@@ -6,6 +6,7 @@ package jpa.service.impl;
  * Time: 下午3:25
  */
 
+import com.alibaba.fastjson.JSONObject;
 import jpa.domain.User;
 import jpa.repository.UserJpaRepository;
 import jpa.repository.UserRepository;
@@ -31,11 +32,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     public List<User> findByName(String name) {
-        List<User> userList1 = userRepository.findByName1(name);
+        List<User> userList1 = null;//userRepository.findByName1(name);
         List<User> userList2 = userRepository.findByName2(name);
         List<User> userList3 = userRepository.findByNameAndAddress(name, "3");
-        System.out.println("userList1:" + userList1);
-        System.out.println("userList2:" + userList2);
+        System.out.println("userList1:" + JSONObject.toJSONString(userList1));
+        System.out.println("userList2:" + JSONObject.toJSONString(userList2));
         System.out.println("userList3:" + userList3);
         return userRepository.findByName(name);
     }

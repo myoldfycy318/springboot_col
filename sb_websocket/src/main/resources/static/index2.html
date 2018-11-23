@@ -5,6 +5,7 @@
     <title>My WebSocket</title>
 </head>
 
+
 <body>
 server地址 : <input id="serveraddress" type="text"/><br/>
 您的用户id : <input id="userId" type="text"/><br/>
@@ -33,19 +34,19 @@ server地址 : <input id="serveraddress" type="text"/><br/>
 
 </body>
 
-</html>
 
+<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript">
     var heartflag = false;
     var webSocket = null;
     var tryTime = 0;
-    $(function () {
-
-//        initSocket();
-        window.onbeforeunload = function () {
-
-        };
-    });
+    //     $(function () {
+    //
+    // //        initSocket();
+    //         window.onbeforeunload = function () {
+    //
+    //         };
+    //     });
 
     /**
      * 初始化websocket，建立连接
@@ -138,3 +139,5 @@ server地址 : <input id="serveraddress" type="text"/><br/>
 
     }
 </script>
+
+</html>

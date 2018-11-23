@@ -18,8 +18,7 @@ public class WebSocketServer {
     New Connected
      */
     @OnOpen
-    public void onOpen(@PathParam("userId") String userId ,
-                       Session session){
+    public void onOpen(@PathParam("userId") String userId , Session session){
         log.info("[WebSocketServer] Connected : userId = "+ userId);
         WebSocketUtils.add(userId , session);
     }

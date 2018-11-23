@@ -1,0 +1,13 @@
+server:
+  port: 9011
+spring:
+  application:
+    name: db-pool
+  profiles:
+      active: hikari
+
+
+mybatis:
+  mapper-locations: mapper/*/*.xml
+
+

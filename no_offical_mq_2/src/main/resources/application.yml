@@ -16,4 +16,4 @@ rabbitmq:
   username: admin
   password: admin
 #  publisher-confirms: true
-  virtual-host: test_vhosts
+  virtual-host: /

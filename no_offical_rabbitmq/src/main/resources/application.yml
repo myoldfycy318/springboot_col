@@ -17,7 +17,7 @@ server:
 rabbitmq:
   host: localhost
   port: 5672
-  username: admin
-  password: admin
+  username: guest
+  password: guest
 #  publisher-confirms: true
   virtual-host: /

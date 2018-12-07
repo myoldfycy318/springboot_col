@@ -1,0 +1,1 @@
+spring:  data:    mongodb:      database: webflux      host: 127.0.0.1      port: 27017logging:  level:    root: info    org:      mongodb: info      springframework: info

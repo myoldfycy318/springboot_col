@@ -4,6 +4,7 @@ import com.china.demo.shardingjdbchint.entity.Order;
 import com.china.demo.shardingjdbchint.entity.OrderItem;
 import com.china.demo.shardingjdbchint.repository.OrderItemRepository;
 import com.china.demo.shardingjdbchint.repository.OrderRepository;
+import io.shardingsphere.api.HintManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,34 @@ public class ShardingJdbcHintApplicationTests {
         orderRepository.truncateTable();
         orderItemRepository.truncateTable();
         processSuccess(false);
+    }
+
+    @Test
+    public void test2() {
+        orderRepository.createTableIfNotExists();
+        orderItemRepository.createTableIfNotExists();
+        orderRepository.truncateTable();
+        orderItemRepository.truncateTable();
+        List<Long> result = new ArrayList<>(3);
+        for (int i = 1; i <= 3; i++) {
+            Order order = new Order();
+            order.setUserId(i);
+            order.setStatus("INSERT_TEST");
+            HintManager hintManager = HintManager.getInstance();
+            hintManager.addDatabaseShardingValue("t_order", i);
+            orderRepository.insert(order);
+
+
+            OrderItem item = new OrderItem();
+            item.setOrderId(order.getOrderId());
+            item.setUserId(i);
+            item.setStatus("INSERT_TEST");
+            HintManager.getInstance().addDatabaseShardingValue("t_order_item", i);
+            orderItemRepository.insert(item);
+            hintManager.close();
+            result.add(order.getOrderId());
+        }
+        printDataAll();
     }
 
     public void cleanEnvironment() {

@@ -9,6 +9,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by shanmin.zhang
@@ -19,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 public class MyWebSocket {
 
-    private static int onlineCount = 0;
+    private static AtomicInteger onlineCount = new AtomicInteger();
 
     private static CopyOnWriteArraySet<MyWebSocket> webSocketSet = new CopyOnWriteArraySet<>();
 
@@ -45,7 +46,7 @@ public class MyWebSocket {
         System.out.println("来自客户端的消息:" + message);
         // 群发消息
         for (MyWebSocket item : webSocketSet) {
-            item.sendMessage("服务端响应----》"+message);
+            item.sendMessage("服务端响应----》" + message);
         }
     }
 
@@ -53,16 +54,16 @@ public class MyWebSocket {
         this.session.getBasicRemote().sendText(message);
     }
 
-    public static synchronized int getOnlineCount() {
-        return MyWebSocket.onlineCount;
+    public static int getOnlineCount() {
+        return onlineCount.get();
     }
 
-    public static synchronized void addOnlineCount() {
-        MyWebSocket.onlineCount++;
+    public static void addOnlineCount() {
+        onlineCount.incrementAndGet();
     }
 
-    public static synchronized void subOnlineCount() {
-        MyWebSocket.onlineCount--;
+    public static void subOnlineCount() {
+        onlineCount.decrementAndGet();
     }
 
 }

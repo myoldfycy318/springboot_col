@@ -12,6 +12,10 @@ public class SbWebsocketApplication {
         SpringApplication.run(SbWebsocketApplication.class, args);
     }
 
+    /**
+     * 开启WebSocket支持
+     * @return
+     */
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();

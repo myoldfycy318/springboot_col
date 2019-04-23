@@ -1,0 +1,16 @@
+
+
+mybatis:
+  mapper-locations: mapper/*.xml
+server:
+  port: 8081
+spring:
+  profiles:
+    active: sharding-master-slave
+    #active: sharding-tables
+    #active: master-slave
+#    active: sharding-databases-tables
+#    active: sharding-databases
+
+
+

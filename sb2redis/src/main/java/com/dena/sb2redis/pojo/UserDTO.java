@@ -1,0 +1,1 @@
+package com.dena.sb2redis.pojo;import lombok.Data;/** * UserDTO * * @author shanmin.zhang * @date 19/1/23 **/@Datapublic class UserDTO {    private Integer id;    String firstName;    String lastName;    Address address;}

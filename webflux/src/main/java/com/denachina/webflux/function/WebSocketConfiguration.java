@@ -20,6 +20,12 @@ import java.util.Map;
 @Configuration
 public class WebSocketConfiguration {
 
+    /**
+     * websocket 客户端工具 https://www.websocket.org/echo.html
+     *
+     * @param localWebSocketHandler
+     * @return
+     */
     @Autowired
     @Bean
     public HandlerMapping webSocketMapping(LocalWebSocketHandler localWebSocketHandler) {

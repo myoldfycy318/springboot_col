@@ -1,0 +1,1 @@
+package com.dena.sb2redis.pojo;import lombok.Data;/** * Address * * @author shanmin.zhang * @date 19/1/23 **/@Datapublic class Address {    String city;    String country;}

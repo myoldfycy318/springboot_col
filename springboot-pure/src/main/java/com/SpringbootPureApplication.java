@@ -11,9 +11,4 @@ public class SpringbootPureApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootPureApplication.class, args);
 	}
-
-	@Bean
-	public MethodValidationPostProcessor methodValidationPostProcessor() {
-		return new MethodValidationPostProcessor();
-	}
 }

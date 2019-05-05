@@ -2,13 +2,13 @@ package com.validator;
 
 
 /**
- * GroupVaild
+ * GroupValid
  *
  * @author shanmin.zhang
  * @date 2019-04-30
  **/
 
-public class GroupVaild {
+public class GroupValid{
 
     public interface CreateGroup {
     }

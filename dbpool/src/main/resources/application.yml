@@ -6,8 +6,19 @@ spring:
   profiles:
       active: hikari
 
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5s
+    lettuce:
+      shutdown-timeout: 100ms
+
+
 
 mybatis:
   mapper-locations: mapper/*/*.xml
+
+
 
 

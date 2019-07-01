@@ -3,6 +3,8 @@ package com;
 import com.alibaba.fastjson.JSONObject;
 import com.dao.UserMapper;
 import com.entity.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,21 @@ public class DbpoolApplicationTests {
 
     @Test
     public void contextLoads() {
-        List<User> list = userMapper.queryUsers();
-        list.stream().forEach((item) -> System.out.println(JSONObject.toJSONString(item)));
+        int currentPage = 2;
+        int pageSize = 2;
+        PageHelper.startPage(currentPage, pageSize);
+        PageInfo pageInfo = PageInfo.of(userMapper.queryUsers());
+        System.out.println(pageInfo.getTotal());
+        pageInfo.getList().stream().forEach((item) -> System.out.println(JSONObject.toJSONString(item)));
+    }
+
+
+    @Autowired
+//    private RedisTemplate redisTemplate;
+
+    @Test
+    public void testRedis(){
+
     }
 
 

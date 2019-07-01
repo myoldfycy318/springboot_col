@@ -1,5 +1,4 @@
 
-
 mybatis:
   mapper-locations: mapper/*.xml
 server:
@@ -8,8 +7,8 @@ spring:
   profiles:
     active: sharding-hint
 #    active: sharding-master-slave
-    #active: sharding-tables
-    #active: master-slave
+#    active: sharding-tables
+#    active: master-slave
 #    active: sharding-databases-tables
 #    active: sharding-databases
 

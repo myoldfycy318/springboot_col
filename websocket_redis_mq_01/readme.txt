@@ -1,0 +1,1 @@
+websocket与redis（PUBLISH|SUBSCRIBE）实现集群消息聊天8.测试　　启动两个服务，端口号分别8081、8082（可以+）　　模拟两个端口的地址：　　　　http://localhost:8081/websocket/index/like/董志峰　　　　http://localhost:8082/websocket/index/like/史振伟

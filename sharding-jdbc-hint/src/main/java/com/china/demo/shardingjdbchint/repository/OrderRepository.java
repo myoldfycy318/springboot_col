@@ -20,9 +20,14 @@ package com.china.demo.shardingjdbchint.repository;
 
 import com.china.demo.shardingjdbchint.entity.Order;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 //@Mapper
 @Repository
 public interface OrderRepository extends CommonRepository<Order> {
+
+    Long insert2(Order entity);
+
+    Order queryByStatus(@Param("status") String status);
 }

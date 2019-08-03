@@ -1,5 +1,6 @@
 package com.china.demo.shardingjdbchint;
 
+import com.alibaba.fastjson.JSONObject;
 import com.china.demo.shardingjdbchint.entity.Order;
 import com.china.demo.shardingjdbchint.entity.OrderItem;
 import com.china.demo.shardingjdbchint.repository.OrderItemRepository;
@@ -35,6 +36,25 @@ public class ShardingJdbcHintApplicationTests {
         orderRepository.truncateTable();
         orderItemRepository.truncateTable();
         processSuccess(false);
+    }
+
+    @Test
+    public void 不适用sharding框架的生成主键() {
+        orderRepository.createTableIfNotExists();
+        orderItemRepository.createTableIfNotExists();
+        orderRepository.truncateTable();
+        orderItemRepository.truncateTable();
+        insertData2();
+    }
+
+    /**
+     * 多张表都扫
+     */
+    @Test
+    public void 不适用分片列查表() {
+        String status = "INSERT_TEST6";
+        Order order = orderRepository.queryByStatus(status);
+        System.out.println(JSONObject.toJSONString(order));
     }
 
     @Test
@@ -94,6 +114,27 @@ public class ShardingJdbcHintApplicationTests {
             order.setUserId(i);
             order.setStatus("INSERT_TEST");
             orderRepository.insert(order);
+
+            OrderItem item = new OrderItem();
+            item.setOrderId(order.getOrderId());
+            item.setUserId(i);
+            item.setStatus("INSERT_TEST");
+            orderItemRepository.insert(item);
+
+            result.add(order.getOrderId());
+        }
+        return result;
+    }
+
+    private List<Long> insertData2() {
+        System.out.println("---------------------------- Insert Data ----------------------------");
+        List<Long> result = new ArrayList<>(10);
+        for (int i = 1; i <= 10; i++) {
+            Order order = new Order();
+            order.setOrderId(i);
+            order.setUserId(i);
+            order.setStatus("INSERT_TEST" + i);
+            orderRepository.insert2(order);
 
             OrderItem item = new OrderItem();
             item.setOrderId(order.getOrderId());

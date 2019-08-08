@@ -2,8 +2,8 @@ server:
   port: 9002
 
 dirPath: /data/tmp
-#spring:
-#  kafka:
-#    bootstrap-servers: 127.0.0.1:9092
-#    consumer:
-#      group-id: 1
+spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: 1

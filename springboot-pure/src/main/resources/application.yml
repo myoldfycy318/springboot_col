@@ -4,6 +4,15 @@ server:
 dirPath: /data/tmp
 spring:
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: 172.21.166.105:9092
     consumer:
       group-id: 1
+
+
+logging:
+  level:
+    root: info
+
+
+
+

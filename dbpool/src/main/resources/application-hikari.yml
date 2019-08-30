@@ -20,4 +20,3 @@ spring:
       #数据库连接超时时间，默认值30000(30s)
       connection-timeout: 30000
       connection-test-query: SELECT 1
-

@@ -45,6 +45,7 @@ spring:
             - RequestTime=true
           predicates:
             - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+            - Path=/test/**
   profiles: elapse_route
 
 

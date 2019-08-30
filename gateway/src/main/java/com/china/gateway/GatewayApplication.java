@@ -2,7 +2,7 @@ package com.china.gateway;
 
 import com.china.gateway.filter.RequestTimeFilter;
 import com.china.gateway.filter.RequestTimeGatewayFilterFactory;
-import com.china.gateway.filter.TokenFilter;
+import com.china.gateway.filter.GlobalTokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -45,8 +45,8 @@ public class GatewayApplication {
     }
 
     @Bean
-    public TokenFilter tokenFilter(){
-        return new TokenFilter();
+    public GlobalTokenFilter tokenFilter(){
+        return new GlobalTokenFilter();
     }
 
 }

@@ -36,6 +36,11 @@ public class RequestTimeGatewayFilterFactory extends AbstractGatewayFilterFactor
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             exchange.getAttributes().put(REQUEST_TIME_BEGIN, System.currentTimeMillis());
+
+
+
+
+
             return chain.filter(exchange).then(
                     Mono.fromRunnable(() -> {
                         Long startTime = exchange.getAttribute(REQUEST_TIME_BEGIN);

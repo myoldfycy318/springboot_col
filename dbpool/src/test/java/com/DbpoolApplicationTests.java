@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisStringCommands;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -21,6 +24,9 @@ public class DbpoolApplicationTests {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Test
     public void contextLoads() {
         int currentPage = 2;
@@ -32,12 +38,11 @@ public class DbpoolApplicationTests {
     }
 
 
-    @Autowired
-//    private RedisTemplate redisTemplate;
 
     @Test
-    public void testRedis(){
-
+    public void testRedis() {
+        String key = "key1";
+        redisTemplate.execute(action -> action.set(key.getBytes(), "v2".getBytes(), Expiration.persistent(), RedisStringCommands.SetOption.UPSERT), true);
     }
 
 

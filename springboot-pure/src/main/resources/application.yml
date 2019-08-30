@@ -8,6 +8,7 @@ spring:
     producer:
       retries: 3
 
+conditional.test: true
 
 logging:
   level:

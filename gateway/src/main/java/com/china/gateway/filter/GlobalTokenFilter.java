@@ -21,9 +21,9 @@ import reactor.core.publisher.Mono;
  * @date 2019-08-20
  **/
 
-public class TokenFilter implements GlobalFilter, Ordered {
+public class GlobalTokenFilter implements GlobalFilter, Ordered {
 
-    Logger logger = LoggerFactory.getLogger(TokenFilter.class);
+    Logger logger = LoggerFactory.getLogger(GlobalTokenFilter.class);
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

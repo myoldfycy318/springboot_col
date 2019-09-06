@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 
 public class GlobalTokenFilter implements GlobalFilter, Ordered {
 
+
     Logger logger = LoggerFactory.getLogger(GlobalTokenFilter.class);
 
     @Override

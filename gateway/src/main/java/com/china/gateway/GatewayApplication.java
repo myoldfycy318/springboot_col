@@ -1,5 +1,6 @@
 package com.china.gateway;
 
+import com.china.gateway.filter.ModifyReqBodyGatewayFilterFactory;
 import com.china.gateway.filter.RequestTimeFilter;
 import com.china.gateway.filter.RequestTimeGatewayFilterFactory;
 import com.china.gateway.filter.GlobalTokenFilter;
@@ -45,8 +46,14 @@ public class GatewayApplication {
     }
 
     @Bean
-    public GlobalTokenFilter tokenFilter(){
+    public GlobalTokenFilter tokenFilter() {
         return new GlobalTokenFilter();
+    }
+
+
+    @Bean(name = "ModifyReqBody")
+    public ModifyReqBodyGatewayFilterFactory modifyReqBodyGatewayFilterFactory() {
+        return new ModifyReqBodyGatewayFilterFactory();
     }
 
 }

@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   profiles:
-    active: elapse_route
+    active: modifyrequestbody_route
 
 ---
 spring:
@@ -48,4 +48,26 @@ spring:
             - Path=/test/**
   profiles: elapse_route
 
+---
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: modifyrequestbody_route
+          uri: lb://sc-consumer
+          predicates:
+            - Path=/test/**
+          filters:
+            - StripPrefix=1
+            - RequestTime=true
+            - ModifyReqBody=true
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback
+  profiles: modifyrequestbody_route
 
+
+logging:
+  level:
+    root: info

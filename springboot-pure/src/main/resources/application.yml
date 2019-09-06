@@ -4,7 +4,7 @@ server:
 dirPath: /data/tmp
 spring:
   kafka:
-    bootstrap-servers: 172.21.166.100:9092
+    bootstrap-servers: 127.0.0.1:9092
     producer:
       retries: 3
 

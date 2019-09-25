@@ -14,11 +14,12 @@ spring:
 
 conditional.test: true
 
+appconfig:
+  customerTopic: tt
+
 logging:
   level:
     root: info
 
-appconfig:
-  customerTopic: tt
 
 

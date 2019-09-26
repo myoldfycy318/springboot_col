@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.rmi.runtime.Log;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -30,10 +31,12 @@ public class SpringbootPureApplicationTests {
     public void test() {
         redisTemplate.opsForValue().increment("key", 1);
         Object result = redisTemplate.opsForValue().get("key");
-        redisTemplate.opsForHash().increment("hash", "a", 1);
+        Long ret = redisTemplate.opsForHash().increment("hash", "a", 1);
+        Long ret1 =redisTemplate.opsForHash().increment("hash", "c", 1);
         log.error("-->" + result);
-        result = redisTemplate.opsForHash().get("hash", "a");
-        log.info("2--->" + result);
+        log.info("ret：" + ret);
+        log.info("ret1：" + ret1);
+        log.info(redisTemplate.opsForHash().get("hash", "a").toString());
     }
 
 

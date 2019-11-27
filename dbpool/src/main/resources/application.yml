@@ -16,9 +16,9 @@ spring:
       shutdown-timeout: 100ms
 
 
-
 mybatis:
-  mapper-locations: mapper/*/*.xml
-
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath:dao/*.xml
 
 

@@ -1,11 +1,11 @@
-package com.dena.aspect;
+package com.aspect;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,26 +21,42 @@ public class HttpAspect {
     //spring boot 默认日志使用logback
     private final Logger logger = LoggerFactory.getLogger(HttpAspect.class);
 
-    @Pointcut("execution(* com.dena.controller.*.*(..))")
-    public void pointcut() {
+
+    @Pointcut("@within(org.apache.ibatis.annotations.Mapper)")
+    public void execute() {
     }
 
-    @Before("pointcut()")
-    public void log(JoinPoint joinPoint) {
-
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-
-        logger.info("url:{},ip->:{},method:{}", request.getRequestURI(), request.getRemoteAddr(), request.getMethod());
-
-        Signature signature = joinPoint.getSignature();
-        logger.info("类名：{},方法:{}", signature.getDeclaringTypeName(), signature.getName());
-        logger.info("请求参数：｛｝", joinPoint.getArgs());
-        logger.info("logger 1111111 l.....");
+    @Pointcut("@within(com.aspect.IgnoreHintManager)")
+    public void aa() {
     }
 
-    @AfterReturning(returning = "object", pointcut = "pointcut()")
-    private void afterReturning(Object object) {
-        logger.info("结果：{}", object);
+    @Pointcut("execution(* com..dao..*(..)))")
+    public void dao() {
     }
+
+
+    //    @Pointcut("execution(* com..mapper..*(..)) && !@within(com.aspect.IgnoreHintManager)")
+//    @Pointcut("execution(* com..mapper..*(..))")
+    @Pointcut("dao() && !aa()")
+    public void mapperExecute() {
+
+    }
+
+    @Before("mapperExecute()")
+    public void ignoreHintManagerInMapper(JoinPoint pjp) {
+        Class<?> classz = pjp.getTarget().getClass();
+        IgnoreHintManager ignoreHintManager = classz.getAnnotation(IgnoreHintManager.class);
+        System.out.println(ignoreHintManager);
+        logger.info("--->111");
+    }
+
+    @Around("dao() && aa()")
+    public Object ignoreHintManager(ProceedingJoinPoint pjp) throws Throwable {
+        Class<?> classz = pjp.getTarget().getClass();
+        IgnoreHintManager ignoreHintManager = classz.getAnnotation(IgnoreHintManager.class);
+        System.out.println(ignoreHintManager);
+        logger.info("--->222");
+        return pjp.proceed();
+    }
+
 }

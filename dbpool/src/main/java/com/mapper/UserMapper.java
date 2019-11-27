@@ -1,4 +1,4 @@
-package com.dao;
+package com.mapper;
 
 import com.aspect.IgnoreHintManager;
 import com.entity.User;
@@ -15,9 +15,11 @@ public interface UserMapper {
     void insert(User user);
 
     User selectById(Integer id);
-    @IgnoreHintManager
+
     List<User> queryUsers();
 
     int saveSendHist(Map<String, String> map);
+
+    User selectByUserId(Integer id);
 
 }

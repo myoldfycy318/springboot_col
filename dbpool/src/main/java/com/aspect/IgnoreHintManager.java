@@ -1,11 +1,14 @@
 package com.aspect;
 
-/**
- * IgnoreHintManager
- *
- * @author shanmin.zhang
- * @date 2019-09-30
- **/
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Target({ElementType.METHOD,ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface IgnoreHintManager {
+    String table() default "";
+
+    String descript() default "忽略hint manager";
 }

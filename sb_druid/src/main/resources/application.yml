@@ -1,0 +1,15 @@
+management:
+  endpoint:
+    shutdown:
+      enabled: true  #启用shutdown
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /MyActuator # 自定义管理端点的前缀(保证安全)
+  server:
+    port: 12888
+    address: 127.0.0.1 # 不允许远程管理连接(不允许外部调用保证安全)
+
+# curl -i -X POST  http://127.0.0.1:12888/MyActuator/shutdown
+

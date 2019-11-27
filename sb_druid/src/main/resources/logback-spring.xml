@@ -85,7 +85,7 @@
         <appender-ref ref="errorAppender" />
     </logger>-->
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="debugAppender" />
         <appender-ref ref="infoAppender" />
         <appender-ref ref="errorAppender" />

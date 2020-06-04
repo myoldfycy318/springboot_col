@@ -30,6 +30,15 @@ public class SbDruidApplication {
 
 
     /**
+     *
+     * 安全优雅地关闭web请求
+     * 这里主要针对SpringBoot内置的Tomcat容器，不过思路都是一样的。
+     * 主要思路就是获取Tomcat的Connector连接器，然后通过Connector获取其连接线程池，最终通过操作线程池安全终止来达到web请求也安全终止的目的。
+     *
+     * 链接：https://www.jianshu.com/p/dc54f0bbe2a6
+     *
+     *
+     *
      * springboot项目优雅的停止服务
      *
      * 用于接受 shutdown 事件

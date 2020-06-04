@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 import sun.rmi.runtime.Log;
@@ -29,6 +31,12 @@ public class SpringbootPureApplicationTests {
     RedisTemplate<String, String> redisTemplate;
 
 
+    private Boolean setSession(String key, String sessionObjString){
+        return redisTemplate.execute(connection ->
+                connection.set(key.getBytes(), sessionObjString.getBytes(), Expiration.from(10, TimeUnit.MINUTES),
+                        RedisStringCommands.SetOption.upsert()), true);
+    }
+
     @Test
     public void test() {
         redisTemplate.opsForValue().increment("key", 1);
@@ -44,6 +52,11 @@ public class SpringbootPureApplicationTests {
         redisTemplate.expire(mutexKey, 1, TimeUnit.SECONDS);
         System.out.println(redisTemplate.opsForValue().setIfAbsent(mutexKey, "1"));
 //        redisTemplate.delete(mutexKey);
+
+        setSession("sk","1");
+        setSession("sk","2");
+        System.out.println(redisTemplate.opsForValue().get("sk"));
+        System.out.println(redisTemplate.getExpire("sk"));
     }
 
 

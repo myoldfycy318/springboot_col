@@ -131,7 +131,7 @@ public class SpringbootRedisSingleApplicationTests {
         System.out.println("3--->:" + redisTemplate.opsForValue().get(key));
         redisTemplate.opsForValue().increment("day", 1L);
 
-        List<Integer> list = redisTemplate.opsForValue().multiGet(Stream.of("day1", "year1").collect(Collectors.toList()));
+        List<String> list = redisTemplate.opsForValue().multiGet(Stream.of("day1", "year1").collect(Collectors.toList()));
         System.out.println(com.alibaba.fastjson.JSONObject.toJSONString(list));
 
         list.stream().filter(item -> item != null).forEach(System.out::println);

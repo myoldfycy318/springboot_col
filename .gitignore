@@ -25,3 +25,4 @@
 /.nb-gradle/
 
 catalina.base_IS_UNDEFINED/
+/vertx-example/target/

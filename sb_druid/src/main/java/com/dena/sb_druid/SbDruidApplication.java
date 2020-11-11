@@ -11,13 +11,14 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.event.ContextClosedEvent;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
+@EnableAspectJAutoProxy(exposeProxy = true)
 @SpringBootApplication
 @ServletComponentScan
 @MapperScan({"com.dena.sb_druid.dao"})

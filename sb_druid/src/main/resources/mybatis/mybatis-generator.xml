@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- uncomment to import external lib, mysql/postgresql/sqlite are built-in -->
+    <!--  -->
+    <classPathEntry
+            location="/Users/shanmin.zhang/.m2/repository/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar"/>
+
+
+    <context defaultModelType="flat" id="mybatis-builder" targetRuntime="MyBatis3">
+        <property name="endingDelimiter" value="`"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="autoDelimitKeywords" value="true"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter" />
+
+   
+
+        <!-- custom comment generator is required for auto merger -->
+       <!-- 其中suppressDate是去掉生成日期那行注释，suppressAllComments是去掉所有的注解；
+        另外，commentGenerator还可以配置一个type，设置自己的注解生成器，默认使用的是org.mybatis.generator.internal.DefaultCommentGenerator；
+      -->
+        <commentGenerator >
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- TODO define connection here -->
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/test?useSSL=false"
+                        driverClass="com.mysql.jdbc.Driver"
+                        password="1qaz@WSX" userId="root"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <property name="useJSR310Types" value="false"/>
+        </javaTypeResolver>
+
+        <!--
+    support below variables which should be wrapped with ${}.
+    PROJECT_DIR: the project base path.
+    CURRENT_DIR: the configuration file path.
+    -->
+        <!--生成Model类存放位置-->
+        <javaModelGenerator targetPackage="com.dena.sb_druid.entity" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成Dao类存放位置-->
+        <javaClientGenerator targetPackage="com.dena.sb_druid.dao" targetProject="src/main/java"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- TODO define tables here
+        <table domainObjectName="Action" enableDeleteByExample="false" enableUpdateByExample="false"
+               tableName="actions">
+            <generatedKey column="id" identity="true" sqlStatement="JDBC"/>
+        </table> -->
+        <!-- uncomment to ignore or override columns -->
+        <!--
+  <ignoreColumn column="context" />
+  <columnOverride column="created_at" javaType="java.util.Date" property="createdAt" />
+  -->
+
+        <!--生成对应表及类名-->
+        <table tableName="user_info" domainObjectName="userDAO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+
+        <table tableName="user_password" domainObjectName="userPasswordDAO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+
+
+    </context>
+</generatorConfiguration>

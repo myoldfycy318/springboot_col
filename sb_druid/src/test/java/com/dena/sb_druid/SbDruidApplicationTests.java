@@ -7,6 +7,7 @@ import com.dena.sb_druid.entity.UserInfo;
 import com.dena.sb_druid.entity.UserPassword;
 import com.dena.sb_druid.service.UserInfoService;
 import com.dena.sb_druid.service.UserPasswordService;
+import com.dena.sb_druid.service.impl.OtherServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,42 +22,47 @@ import java.util.List;
 @SpringBootTest
 public class SbDruidApplicationTests {
 
-    private Logger logger = LoggerFactory.getLogger(SbDruidApplication.class);
+  private Logger logger = LoggerFactory.getLogger(SbDruidApplication.class);
 
-    @Autowired
-    private UserMapper userMapper;
+  @Autowired private UserMapper userMapper;
 
-    @Test
-    public void contextLoads() {
+  @Test
+  public void contextLoads() {
 
-        List<User> list = userMapper.queryUsers();
-        String str = JSONObject.toJSONString(list);
+    List<User> list = userMapper.queryUsers();
+    String str = JSONObject.toJSONString(list);
 
-        logger.debug("debug 日志。。。,{}", str);
-        logger.info("info 日志。。。,{}", str);
-        logger.error("error 日志。。。,{}", str);
+    logger.debug("debug 日志。。。,{}", str);
+    logger.info("info 日志。。。,{}", str);
+    logger.error("error 日志。。。,{}", str);
+  }
 
+  @Autowired private UserInfoService userInfoService;
+  @Autowired private UserPasswordService userPasswordService;
+
+  @Test
+  public void testTrans() {
+
+    UserInfo userInfo = new UserInfo();
+    userInfo.setAge(11);
+    userInfo.setName("zz");
+
+    UserPassword pw = new UserPassword();
+    pw.setUserId(1);
+    pw.setEncryptPassword("x");
+
+    userInfoService.saveUserInfo(userInfo);
+    userPasswordService.savePW(pw);
+  }
+
+  @Autowired private OtherServiceImpl otherServiceImpl;
+
+  @Test
+  public void testThrowException() {
+    try {
+      otherServiceImpl.testTransactional();
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
-
-    @Autowired
-    private UserInfoService userInfoService;
-    @Autowired
-    private UserPasswordService userPasswordService;
-    @Test
-    public void TestTrans(){
-
-      UserInfo userInfo = new UserInfo();
-      userInfo.setAge(11);
-      userInfo.setName("zz");
-
-      UserPassword pw = new UserPassword();
-      pw.setUserId(1);
-      pw.setEncryptPassword("x");
-
-      userInfoService.saveUserInfo(userInfo);
-      userPasswordService.savePW(pw);
-
-    }
-
-
+  }
 }

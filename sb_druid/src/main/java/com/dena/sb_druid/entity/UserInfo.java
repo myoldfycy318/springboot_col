@@ -1,6 +1,6 @@
 package com.dena.sb_druid.entity;
 
-public class userDAO {
+public class UserInfo {
     private Integer id;
 
     private String name;

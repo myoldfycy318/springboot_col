@@ -16,7 +16,7 @@
         <!-- 格式化java代码 -->
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter" />
 
-   
+
 
         <!-- custom comment generator is required for auto merger -->
        <!-- 其中suppressDate是去掉生成日期那行注释，suppressAllComments是去掉所有的注解；
@@ -70,11 +70,11 @@
   -->
 
         <!--生成对应表及类名-->
-        <table tableName="user_info" domainObjectName="userDAO" enableCountByExample="false"
+        <table tableName="user_info" domainObjectName="UserInfo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 
-        <table tableName="user_password" domainObjectName="userPasswordDAO" enableCountByExample="false"
+        <table tableName="user_password" domainObjectName="UserPassword" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 

@@ -1,6 +1,6 @@
 package com.dena.sb_druid.entity;
 
-public class userPasswordDAO {
+public class UserPassword {
     private Integer id;
 
     private String encryptPassword;

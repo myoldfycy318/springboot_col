@@ -8,6 +8,7 @@ import com.dena.sb_druid.entity.UserPassword;
 import com.dena.sb_druid.service.UserInfoService;
 import com.dena.sb_druid.service.UserPasswordService;
 import com.dena.sb_druid.service.impl.OtherServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,11 +21,12 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class SbDruidApplicationTests {
 
-  private Logger logger = LoggerFactory.getLogger(SbDruidApplication.class);
 
-  @Autowired private UserMapper userMapper;
+  @Autowired
+  private UserMapper userMapper;
 
   @Test
   public void contextLoads() {
@@ -32,13 +34,15 @@ public class SbDruidApplicationTests {
     List<User> list = userMapper.queryUsers();
     String str = JSONObject.toJSONString(list);
 
-    logger.debug("debug 日志。。。,{}", str);
-    logger.info("info 日志。。。,{}", str);
-    logger.error("error 日志。。。,{}", str);
+    log.debug("debug 日志。。。,{}", str);
+    log.info("info 日志。。。,{}", str);
+    log.error("error 日志。。。,{}", str);
   }
 
-  @Autowired private UserInfoService userInfoService;
-  @Autowired private UserPasswordService userPasswordService;
+  @Autowired
+  private UserInfoService userInfoService;
+  @Autowired
+  private UserPasswordService userPasswordService;
 
   @Test
   public void testTrans() {
@@ -55,7 +59,8 @@ public class SbDruidApplicationTests {
     userPasswordService.savePW(pw);
   }
 
-  @Autowired private OtherServiceImpl otherServiceImpl;
+  @Autowired
+  private OtherServiceImpl otherServiceImpl;
 
   @Test
   public void testThrowException() {
@@ -65,4 +70,23 @@ public class SbDruidApplicationTests {
       ex.printStackTrace();
     }
   }
+
+  @Test
+  public void testCache() {
+    UserInfo userInfo = otherServiceImpl.getById(1);
+    log.info(JSONObject.toJSONString(userInfo));
+    userInfo = otherServiceImpl.getById(1);
+    log.info(JSONObject.toJSONString(userInfo));
+
+    userInfo = new UserInfo();
+    userInfo.setAge(21);
+    userInfo.setName("xz");
+    userInfo.setId(1);
+    otherServiceImpl.updateUserInfo(userInfo);
+
+    userInfo = otherServiceImpl.getById(1);
+    log.info(JSONObject.toJSONString(userInfo));
+
+  }
+
 }

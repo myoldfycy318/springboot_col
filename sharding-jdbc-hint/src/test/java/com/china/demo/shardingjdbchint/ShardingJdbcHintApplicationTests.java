@@ -17,7 +17,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ShardingJdbcHintApplicationTests {
+public class  ShardingJdbcHintApplicationTests {
 
     @Autowired
     private OrderItemRepository orderItemRepository;

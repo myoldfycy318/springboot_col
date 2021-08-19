@@ -5,12 +5,12 @@ server:
   port: 8081
 spring:
   profiles:
-#    active: sharding-hint
+    active: sharding-hint
 #    active: sharding-master-slave
 #    active: sharding-tables
 #    active: master-slave
 #    active: sharding-databases-tables
 #    active: sharding-databases
-    active: sharding-tables2
+#    active: sharding-tables2
 
 

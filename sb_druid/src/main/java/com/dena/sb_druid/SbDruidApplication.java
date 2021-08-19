@@ -9,6 +9,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 @ServletComponentScan
 @MapperScan({"com.dena.sb_druid.dao"})
 @Slf4j
+@EnableCaching
 public class SbDruidApplication {
 
     public static void main(String[] args) {
